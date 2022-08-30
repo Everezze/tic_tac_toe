@@ -1,7 +1,13 @@
-def set_board(dimension,alphabet, move_to_play=None, list_of_lists=[]):
+def set_board(dimension,alphabet, player_turn, move_to_play=None, list_of_lists=[]):
     dash= False
     number_of_lines =0
     board_letters= alphabet[:dimension]
+    if player_turn ==1:
+        symbol= 'x'
+        player_turn = 2
+    else:
+        symbol= 'o'
+        player_turn =1
 
 
     if len(list_of_lists) ==0:
@@ -11,7 +17,7 @@ def set_board(dimension,alphabet, move_to_play=None, list_of_lists=[]):
                     list_of_lists[i].append(' ')
 
     if move_to_play: 
-        list_of_lists[move_to_play['row']][move_to_play['column']] = 'x'
+        list_of_lists[move_to_play['row']][move_to_play['column']] = symbol
 
     for letter in board_letters:
         if letter =='a':
@@ -33,7 +39,7 @@ def set_board(dimension,alphabet, move_to_play=None, list_of_lists=[]):
                 print(f' {tile} |',end='')
             dash=True
 
-    return list_of_lists
+    return (list_of_lists, player_turn)
 
 #user_input= int(input('Insert a single digit for your grid dimension: '))
 #set_board(user_input)
@@ -54,7 +60,7 @@ def get_move():
                 break
 
     #dimension,list_of_lists,alphabet = set_board(dimension)
-    list_of_lists= set_board(dimension,alphabet)
+    list_of_lists= set_board(dimension,alphabet,player_turn)
 
     allowed_move= dict()
 
@@ -81,7 +87,7 @@ def get_move():
 
         if allowed_move['row'] and allowed_move['column']:
             if not list_of_lists[allowed_move['row']][allowed_move['column']]:
-                list_of_lists = set_board(dimension,alphabet,move_to_play=allowed_move)
+                list_of_lists,player_turn = set_board(dimension,alphabet,player_turn,move_to_play=allowed_move)
                 winner = check_win(list_of_lists,dimension)
             else:
                 tile_already_checked=1
