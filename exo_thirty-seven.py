@@ -60,7 +60,7 @@ def get_move():
                 break
 
     #dimension,list_of_lists,alphabet = set_board(dimension)
-    list_of_lists= set_board(dimension,alphabet,player_turn)
+    list_of_lists, player_turn= set_board(dimension,alphabet,player_turn)
 
     allowed_move= dict()
 
