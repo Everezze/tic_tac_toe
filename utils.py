@@ -178,3 +178,12 @@ def check_win(list_of_lists, dimension):
             return False
     
     return 'draw'
+
+
+def replay(answer):
+    answer = answer.lower()
+    if answer == 'yes' or answer == 'y':
+        return True
+    elif answer == 'no' or answer == 'n':
+        return False
+    
