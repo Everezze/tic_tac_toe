@@ -74,7 +74,7 @@ def get_move():
             print('Move not allowed : Tile already played')
             tile_already_checked=0
 
-        input(f'Player {player_turn} to play')
+        print(f'Player {player_turn} to play')
         player_move= input('Type a coordinate pair(ex:b3) : ')
         player_move = list(player_move)
 
@@ -83,15 +83,15 @@ def get_move():
         else:
             for char in player_move:
                 if len(char) ==1 and char.isalpha():
-                    if alphabet.index(char) < dimension and not allowed_move['column']:
+                    if alphabet.index(char) < dimension and not allowed_move.get('column'):
                         allowed_move['column']= alphabet.index(char)
 
                 if len(char) ==1 and char.isdecimal() and int(char) < dimension:
-                    if not allowed_move['row']:
+                    if not allowed_move.get('row'):
                         allowed_move['row']= int(char)
 
         if allowed_move['row'] and allowed_move['column']:
-            if not list_of_lists[allowed_move['row']][allowed_move['column']]:
+            if list_of_lists[allowed_move['row']][allowed_move['column']] == ' ':
                 list_of_lists,player_turn = set_board(dimension,alphabet,player_turn,move_to_play=allowed_move)
                 winner = check_win(list_of_lists,dimension)
             else:
@@ -138,7 +138,7 @@ def check_win(list_of_lists, dimension):
     while column != dimension :
 
         while list_of_lists[dimension-x][column] == list_of_lists[dimension-x-1][column]:
-            if list_of_lists[dimension-x][column] !=0:
+            if list_of_lists[dimension-x][column] !=' ':
                 if x == dimension:
                     #print(f'player {list_of_lists[dimension-x][column]} won!')
                     return list_of_lists[dimension-x][column]
