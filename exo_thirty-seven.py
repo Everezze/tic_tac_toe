@@ -2,12 +2,17 @@ def set_board(dimension,alphabet, player_turn, move_to_play=None, list_of_lists=
     dash= False
     number_of_lines =0
     board_letters= alphabet[:dimension]
+    symbol=''
+
+    # Initialization and keep track of which player is about to play
     if player_turn ==1:
         symbol= 'x'
         player_turn = 2
-    else:
+    elif player_turn ==2:
         symbol= 'o'
         player_turn =1
+    else:
+        player_turn =1 
 
 
     if len(list_of_lists) ==0:
@@ -50,10 +55,10 @@ def get_move():
     tile_already_checked=0
     alphabet='abcdefghijklmnopqrstuvwxyz'
     winner= False
-    player_turn=1
+    player_turn=0
 
     while True:
-        dimension= input('Insert a digit between 3 and 26 for your grid dimension(ex:8 for 8*8 grid): ')
+        dimension= input('Insert a digit between 3 and 26 for your grid dimension(ex:8 for an 8*8 grid): ')
         if dimension.isalpha and len(dimension) < 3:
             dimension = int(dimension)
             if 3 <= dimension <= 26:
@@ -66,7 +71,7 @@ def get_move():
 
     while not winner:
         if tile_already_checked:
-            print('Move not allowed : Tile already checked')
+            print('Move not allowed : Tile already played')
             tile_already_checked=0
 
         input(f'Player {player_turn} to play')
@@ -91,3 +96,9 @@ def get_move():
                 winner = check_win(list_of_lists,dimension)
             else:
                 tile_already_checked=1
+
+    if winner == 'draw':
+        print(f'It\'s a tie game')
+    else:
+        print(f'Player {winner} have won!')
+
