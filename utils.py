@@ -128,6 +128,11 @@ def check_win(list_of_lists, dimension):
         #print(f'player {list_of_lists[dimension-x][column]} won!')
         #break
         
+    for list in list_of_lists:
+        if all(move=='x' for move in list):
+            return 'x'
+        elif all(move=='o' for move in list):
+            return 'o'
 
     #CHECKING FOR COLUMNS 
     while column != dimension :
