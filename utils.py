@@ -24,6 +24,8 @@ def set_board(dimension,alphabet, player_turn, move_to_play=None, list_of_lists=
     if move_to_play: 
         list_of_lists[move_to_play['row']][move_to_play['column']] = symbol
 
+    print(list_of_lists)
+
     for letter in board_letters:
         if letter =='a':
           print(f'    {letter} ',end='')
@@ -70,6 +72,10 @@ def get_move():
     allowed_move= dict()
 
     while not winner:
+
+        for key in allowed_move.keys():
+            allowed_move[key]=' '
+
         if tile_already_checked:
             print('Move not allowed : Tile already played')
             tile_already_checked=0
@@ -83,14 +89,17 @@ def get_move():
         else:
             for char in player_move:
                 if len(char) ==1 and char.isalpha():
-                    if alphabet.index(char) < dimension and not allowed_move.get('column'):
+                    if alphabet.index(char) <= dimension :
                         allowed_move['column']= alphabet.index(char)
 
-                if len(char) ==1 and char.isdecimal() and int(char) < dimension:
-                    if not allowed_move.get('row'):
-                        allowed_move['row']= int(char)
+                if len(char) ==1 and char.isdecimal() and 0<int(char) <= dimension:
+                    allowed_move['row']= int(char)-1
+        print(allowed_move)
+        print(list_of_lists[allowed_move['row']][allowed_move['column']])
 
-        if allowed_move['row'] and allowed_move['column']:
+        if allowed_move['row'] != ' ' and allowed_move['column'] != ' ':
+            print(allowed_move)
+            print(list_of_lists[allowed_move['row']][allowed_move['column']])
             if list_of_lists[allowed_move['row']][allowed_move['column']] == ' ':
                 list_of_lists,player_turn = set_board(dimension,alphabet,player_turn,move_to_play=allowed_move)
                 winner = check_win(list_of_lists,dimension)
@@ -120,14 +129,12 @@ def check_win(list_of_lists, dimension):
     #CHECKING FOR COLUMNS 
     while column <= dimension and x != dimension :
 
-        if list_of_lists[dimension-x][column] == list_of_lists[dimension-x-1][column]:
-            
-            if list_of_lists[dimension-x][column] !=' ':
+        if list_of_lists[dimension-x][column] == list_of_lists[dimension-x-1][column] and list_of_lists[dimension-x][column] !=' ':
                 x+=1
                 #tile_checked +=1
-            else:
-                x=0
-                column+=1
+        else:
+            x=0
+            column+=1
 
     if x==dimension:
         return list_of_lists[dimension-x][column]  
